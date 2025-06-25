@@ -1,0 +1,15 @@
+<?php
+require_once 'RedisConn.php';
+
+class ChatRepository {
+    private $redis;
+    public function __construct() {
+        $this->redis = (new RedisConn())->getClient();
+    }
+    public function saveMessage($roomId, $message) {
+        $this->redis->lpush("chat:room:$roomId", json_encode($message));
+    }
+    public function getMessages($roomId, $limit = 50) {
+        return $this->redis->lrange("chat:room:$roomId", 0, $limit-1);
+    }
+} 
