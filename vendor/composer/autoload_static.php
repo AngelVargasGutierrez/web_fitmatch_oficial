@@ -8,11 +8,16 @@ class ComposerStaticInit306f6e03dec5566e7566faf9480c8993
 {
     public static $files = array (
         '79f66bc0a1900f77abe4a9a299057a0a' => __DIR__ . '/..' . '/starkbank/ecdsa/src/ellipticcurve.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+        '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
+        '3a37ebac017bc098e9a86b35401e7a68' => __DIR__ . '/..' . '/mongodb/mongodb/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
+            'Symfony\\Polyfill\\Php81\\' => 23,
+            'Symfony\\Polyfill\\Php80\\' => 23,
             'SendGrid\\Stats\\' => 15,
             'SendGrid\\Mail\\' => 14,
             'SendGrid\\Helper\\' => 16,
@@ -22,12 +27,25 @@ class ComposerStaticInit306f6e03dec5566e7566faf9480c8993
         ),
         'P' => 
         array (
+            'Psr\\Log\\' => 8,
             'Predis\\' => 7,
             'PHPMailer\\PHPMailer\\' => 20,
+        ),
+        'M' => 
+        array (
+            'MongoDB\\' => 8,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Symfony\\Polyfill\\Php81\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php81',
+        ),
+        'Symfony\\Polyfill\\Php80\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
+        ),
         'SendGrid\\Stats\\' => 
         array (
             0 => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/stats',
@@ -52,6 +70,10 @@ class ComposerStaticInit306f6e03dec5566e7566faf9480c8993
         array (
             0 => __DIR__ . '/..' . '/sendgrid/php-http-client/lib',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/src',
+        ),
         'Predis\\' => 
         array (
             0 => __DIR__ . '/..' . '/predis/predis/src',
@@ -60,13 +82,24 @@ class ComposerStaticInit306f6e03dec5566e7566faf9480c8993
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
+        'MongoDB\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mongodb/mongodb/src',
+        ),
     );
 
     public static $classMap = array (
+        'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'BaseSendGridClientInterface' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/BaseSendGridClientInterface.php',
+        'CURLStringFile' => __DIR__ . '/..' . '/symfony/polyfill-php81/Resources/stubs/CURLStringFile.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
+        'ReturnTypeWillChange' => __DIR__ . '/..' . '/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
         'SendGrid' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/SendGrid.php',
+        'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'TwilioEmail' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/TwilioEmail.php',
+        'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
+        'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

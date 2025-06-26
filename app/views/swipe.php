@@ -147,7 +147,7 @@
                         <a class="nav-link active" href="#"><i class="fas fa-home me-2"></i>Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-comments me-2"></i>Mensajes</a>
+                        <a class="nav-link" href="/Fitmatch/public/mensajes.php"><i class="fas fa-comments me-2"></i>Mensajes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="my_profile.php"><i class="fas fa-user me-2"></i>Mi Perfil</a>

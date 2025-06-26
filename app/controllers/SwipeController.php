@@ -14,17 +14,28 @@ class SwipeController {
     // Obtener recomendaciones para el usuario
     public function getRecommendations($userId) {
         require_once __DIR__ . '/../../models/UserRepository.php';
+        require_once __DIR__ . '/../../models/MatchRepository.php';
         $userRepo = new UserRepository();
-        $users = $userRepo->getAllUsers($userId); // Excluye al usuario actual
-        echo json_encode(['success' => true, 'data' => $users]);
+        $matchRepo = new MatchRepository();
+        $swipedIds = $matchRepo->getSwipedUserIdsMongo($userId);
+        $users = $userRepo->getAllUsers($userId);
+        $filtered = array_filter($users, function($u) use ($swipedIds) {
+            return !in_array($u['id'], $swipedIds);
+        });
+        echo json_encode(['success' => true, 'data' => array_values($filtered)]);
     }
     
     // Guardar swipe (like o dislike)
     public function saveSwipe($userId, $targetUserId, $action) {
         require_once __DIR__ . '/../../models/MatchRepository.php';
         $matchRepo = new MatchRepository();
-        $result = $matchRepo->saveSwipe($userId, $targetUserId, $action);
-        echo json_encode(['success' => $result]);
+        $result = $matchRepo->saveSwipeMongo($userId, $targetUserId, $action);
+        $isMatch = false;
+        if ($action === 'like' && $matchRepo->checkMatchMongo($userId, $targetUserId)) {
+            $matchRepo->saveMatchMongo($userId, $targetUserId);
+            $isMatch = true;
+        }
+        echo json_encode(['success' => $result, 'match' => $isMatch]);
     }
     
     // Obtener matches del usuario

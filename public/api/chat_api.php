@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'history') {
     $matchId = $_GET['match_id'] ?? null;
     $limit = $_GET['limit'] ?? 50;
 
@@ -35,6 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     $messages = $chatRepo->getMessages($matchId, $limit);
     echo json_encode(['success' => true, 'messages' => $messages]);
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'matches') {
+    $userId = $_SESSION['user_id'];
+    require_once __DIR__ . '/../../app/controllers/MessageController.php';
+    (new MessageController())->getMatches($userId);
     exit;
 }
 

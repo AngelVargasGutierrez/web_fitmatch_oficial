@@ -4,7 +4,7 @@ require_once 'MongoDBConn.php';
 class MatchRepository {
     private $manager;
     public function __construct() {
-        $this->manager = (new MongoDBConn('fitmatch_matches'))->getManager();
+        $this->manager = (new MongoDBConn('fitmatch'))->getManager();
     }
     public function findByUser($userId) {
         $filter = ['user1_id' => $userId];
@@ -111,5 +111,70 @@ class MatchRepository {
         }
         
         return $swipedUsers;
+    }
+
+    public function saveSwipeMongo($userId, $targetUserId, $action) {
+        require_once __DIR__ . '/MongoDBConn.php';
+        $mongo = new MongoDBConn('fitmatch');
+        $collection = $mongo->getCollection('fitmatch_swipes');
+        $result = $collection->insertOne([
+            'user_id' => $userId,
+            'target_user_id' => $targetUserId,
+            'action' => $action,
+            'created_at' => new MongoDB\BSON\UTCDateTime()
+        ]);
+        return $result->isAcknowledged();
+    }
+
+    public function getSwipedUserIdsMongo($userId) {
+        require_once __DIR__ . '/MongoDBConn.php';
+        $mongo = new MongoDBConn('fitmatch');
+        $collection = $mongo->getCollection('fitmatch_swipes');
+        $swipes = $collection->find(['user_id' => $userId]);
+        $ids = [];
+        foreach ($swipes as $swipe) {
+            $ids[] = $swipe['target_user_id'];
+        }
+        return $ids;
+    }
+
+    public function checkMatchMongo($userId, $targetUserId) {
+        $mongo = new MongoDBConn('fitmatch');
+        $collection = $mongo->getCollection('fitmatch_swipes');
+        $swipe = $collection->findOne([
+            'user_id' => $targetUserId,
+            'target_user_id' => $userId,
+            'action' => 'like'
+        ]);
+        return $swipe !== null;
+    }
+
+    public function saveMatchMongo($userId, $targetUserId) {
+        $mongo = new MongoDBConn('fitmatch');
+        $collection = $mongo->getCollection('fitmatch_matches');
+        $exists = $collection->findOne([
+            'users' => ['$all' => [(int)$userId, (int)$targetUserId]]
+        ]);
+        if (!$exists) {
+            $collection->insertOne([
+                'users' => [(int)$userId, (int)$targetUserId],
+                'created_at' => new \MongoDB\BSON\UTCDateTime()
+            ]);
+        }
+    }
+
+    public function getMatchesMongo($userId) {
+        $mongo = new MongoDBConn('fitmatch');
+        $collection = $mongo->getCollection('fitmatch_matches');
+        $matches = $collection->find(['users' => (int)$userId]);
+        $result = [];
+        foreach ($matches as $match) {
+            foreach ($match['users'] as $uid) {
+                if ($uid != $userId) {
+                    $result[] = $uid;
+                }
+            }
+        }
+        return $result;
     }
 } 
