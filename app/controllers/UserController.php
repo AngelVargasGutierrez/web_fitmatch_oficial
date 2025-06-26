@@ -39,8 +39,8 @@ class UserController {
     // Procesar login
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: login.php');
-            exit;
+            $this->showLogin();
+            return;
         }
         
         $email = $_POST['email'] ?? '';
@@ -48,8 +48,9 @@ class UserController {
         
         if (empty($email) || empty($password)) {
             $_SESSION['error'] = 'Por favor completa todos los campos';
-            header('Location: login.php');
-            exit;
+            unset($_SESSION['user_id'], $_SESSION['username'], $_SESSION['email']);
+            $this->showLogin();
+            return;
         }
         
         $user = $this->userRepository->authenticateUser($email, $password);
@@ -59,13 +60,13 @@ class UserController {
             $_SESSION['username'] = $user['username'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['success'] = '¡Bienvenido de vuelta, ' . $user['first_name'] . '!';
-            
-            header('Location: index.php');
+            header('Location: /Fitmatch/app/views/swipe.php');
             exit;
         } else {
             $_SESSION['error'] = 'Email o contraseña incorrectos';
-            header('Location: login.php');
-            exit;
+            unset($_SESSION['user_id'], $_SESSION['username'], $_SESSION['email']);
+            $this->showLogin();
+            return;
         }
     }
     
@@ -156,7 +157,7 @@ class UserController {
     // Mostrar perfil del usuario actual
     public function showMyProfile() {
         if (!$this->isLoggedIn()) {
-            header('Location: login.php');
+            header('Location: /Fitmatch/public/login.php');
             exit;
         }
         
@@ -167,7 +168,7 @@ class UserController {
     // Actualizar perfil
     public function updateProfile() {
         if (!$this->isLoggedIn()) {
-            header('Location: login.php');
+            header('Location: /Fitmatch/public/login.php');
             exit;
         }
         

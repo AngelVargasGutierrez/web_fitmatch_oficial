@@ -304,7 +304,7 @@
             <div class="alert alert-danger text-center mb-3"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
         <?php endif; ?>
 
-        <form method="POST" action="login.php">
+        <form method="POST" action="/Fitmatch/public/login.php">
             <div class="form-group">
                 <i class="fas fa-envelope input-icon"></i>
                 <input type="email" name="email" class="form-control form-control-with-icon" 
