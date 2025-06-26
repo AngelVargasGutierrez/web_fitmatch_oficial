@@ -36,19 +36,26 @@ if (!isset($_SESSION['user_id'])) {
 </head>
 <body>
 <div class="container-fluid">
-    <div class="mensajes-container">
+  <div class="row">
+    <div class="col-md-3 col-lg-2 p-0">
+      <?php include __DIR__ . '/../app/views/sidebar.php'; ?>
+    </div>
+    <div class="col-md-9 col-lg-10">
+      <div class="mensajes-container">
         <div class="matches-list" id="matchesList">
-            <div class="text-center text-muted py-4">Cargando matches...</div>
+          <div class="text-center text-muted py-4">Cargando matches...</div>
         </div>
         <div class="chat-panel">
-            <div class="chat-header" id="chatHeader">Selecciona un match para chatear</div>
-            <div class="chat-messages" id="chatMessages"></div>
-            <form class="chat-input-panel" id="chatForm" style="display:none;">
-                <input type="text" class="chat-input" id="chatInput" placeholder="Escribe un mensaje..." autocomplete="off" required>
-                <button class="btn-send" type="submit"><i class="fas fa-paper-plane"></i></button>
-            </form>
+          <div class="chat-header" id="chatHeader">Selecciona un match para chatear</div>
+          <div class="chat-messages" id="chatMessages"></div>
+          <form class="chat-input-panel" id="chatForm" style="display:none;">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Escribe un mensaje..." autocomplete="off" required>
+            <button class="btn-send" type="submit"><i class="fas fa-paper-plane"></i></button>
+          </form>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 <script>
 let matches = [];

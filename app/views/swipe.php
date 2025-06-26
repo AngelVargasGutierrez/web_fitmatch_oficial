@@ -138,35 +138,19 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div class="row">
-        <nav class="col-md-2 d-none d-md-block sidebar">
-            <div class="position-sticky">
-                <h3 class="mb-4">FitMatch</h3>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#"><i class="fas fa-home me-2"></i>Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Fitmatch/public/mensajes.php"><i class="fas fa-comments me-2"></i>Mensajes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="my_profile.php"><i class="fas fa-user me-2"></i>Mi Perfil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-cog me-2"></i>Configuración</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4 d-flex flex-column align-items-center justify-content-center">
-            <div id="profileCardContainer" class="w-100"></div>
-            <div class="swipe-actions">
-                <button class="swipe-btn dislike" id="btnDislike"><i class="fas fa-times"></i></button>
-                <button class="swipe-btn like" id="btnLike"><i class="fas fa-heart"></i></button>
-            </div>
-            <div class="profiles-remaining" id="profilesRemaining"></div>
-        </main>
+  <div class="row">
+    <div class="col-md-3 col-lg-2 p-0">
+      <?php include __DIR__ . '/sidebar.php'; ?>
     </div>
+    <div class="col-md-9 col-lg-10 d-flex flex-column align-items-center justify-content-center">
+      <div id="profileCardContainer" class="w-100"></div>
+      <div class="swipe-actions">
+        <button class="swipe-btn dislike" id="btnDislike"><i class="fas fa-times"></i></button>
+        <button class="swipe-btn like" id="btnLike"><i class="fas fa-heart"></i></button>
+      </div>
+      <div class="profiles-remaining" id="profilesRemaining"></div>
+    </div>
+  </div>
 </div>
 <script>
 let profiles = [];
