@@ -9,5 +9,16 @@ services:
       - redis_data:/data
     command: ["redis-server", "--appendonly", "yes"]
 
+  mongo:
+    image: mongo:latest
+    container_name: fitmatch-mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: fitmatch
+    volumes:
+      - mongo_data:/data/db
+
 volumes:
-  redis_data: 
+  redis_data:
+  mongo_data: 

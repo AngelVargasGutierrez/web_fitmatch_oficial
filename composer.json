@@ -2,6 +2,8 @@
     "require": {
         "predis/predis": "^2.0",
         "ext-pdo": "*",
-        "ext-mongodb": "*"
+        "ext-mongodb": "*",
+        "sendgrid/sendgrid": "^8.1",
+        "phpmailer/phpmailer": "^6.10"
     }
-} 
+}

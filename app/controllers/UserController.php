@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../models/UserRepository.php';
+require_once __DIR__ . '/../utils/EmailHelper.php';
 
 class UserController {
     public $userRepository;
@@ -115,6 +116,10 @@ class UserController {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['email'] = $user['email'];
+                $token = bin2hex(random_bytes(32));
+                $this->userRepository->setVerificationToken($userId, $token);
+                $verificationLink = "http://localhost/Fitmatch/public/verify_email.php?token=$token";
+                sendVerificationEmail($userData['email'], $userData['first_name'], $verificationLink);
                 echo json_encode(['success' => true, 'redirect' => 'swipe.php']);
                 exit;
             } else {

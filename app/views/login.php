@@ -301,10 +301,7 @@
         <?php endif; ?>
 
         <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger">
-                <i class="fas fa-exclamation-circle me-2"></i>
-                <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
-            </div>
+            <div class="alert alert-danger text-center mb-3"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
         <?php endif; ?>
 
         <form method="POST" action="login.php">

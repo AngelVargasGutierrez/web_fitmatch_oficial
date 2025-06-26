@@ -135,14 +135,12 @@ class UserRepository {
         return $user;
     }
     public function getAllUsers($excludeUserId = null) {
-        $sql = "SELECT u.*, p.bio, p.age, p.location FROM users u LEFT JOIN profiles p ON u.id = p.user_id";
+        $sql = "SELECT u.* FROM users u";
         $params = [];
-        
         if ($excludeUserId) {
             $sql .= " WHERE u.id != ?";
             $params[] = $excludeUserId;
         }
-        
         return $this->db->fetchAll($sql, $params);
     }
     private function calculateAge($birthDate) {
@@ -170,6 +168,18 @@ class UserRepository {
         }
         $result = $this->db->fetch($sql, $params);
         return isset($result['count']) && $result['count'] > 0;
+    }
+    public function setVerificationToken($userId, $token) {
+        $sql = "UPDATE users SET verification_token = ? WHERE id = ?";
+        return $this->db->execute($sql, [$token, $userId]);
+    }
+    public function findByVerificationToken($token) {
+        $sql = "SELECT * FROM users WHERE verification_token = ?";
+        return $this->db->fetch($sql, [$token]);
+    }
+    public function verifyEmail($userId) {
+        $sql = "UPDATE users SET email_verified = 1, verification_token = NULL WHERE id = ?";
+        return $this->db->execute($sql, [$userId]);
     }
     // Agrega más métodos según lo necesites
 } 

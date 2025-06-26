@@ -13,76 +13,18 @@ class SwipeController {
     
     // Obtener recomendaciones para el usuario
     public function getRecommendations($userId) {
-        try {
-            // Obtener usuarios que ya fueron swippeados
-            $swipedUsers = $this->matchRepository->getSwipedUsers($userId);
-            
-            // Obtener recomendaciones basadas en preferencias
-            $recommendations = $this->userRepository->findByPreferences($userId);
-            
-            // Filtrar usuarios ya swippeados
-            $filteredRecommendations = array_filter($recommendations, function($user) use ($swipedUsers, $userId) {
-                return !in_array($user['id'], $swipedUsers) && $user['id'] != $userId;
-            });
-            
-            // Limitar a 10 recomendaciones
-            $filteredRecommendations = array_slice($filteredRecommendations, 0, 10);
-            
-            header('Content-Type: application/json');
-            echo json_encode([
-                'success' => true,
-                'data' => array_values($filteredRecommendations)
-            ]);
-        } catch (Exception $e) {
-            header('Content-Type: application/json');
-            echo json_encode([
-                'success' => false,
-                'error' => 'Error al obtener recomendaciones'
-            ]);
-        }
+        require_once __DIR__ . '/../../models/UserRepository.php';
+        $userRepo = new UserRepository();
+        $users = $userRepo->getAllUsers($userId); // Excluye al usuario actual
+        echo json_encode(['success' => true, 'data' => $users]);
     }
     
     // Guardar swipe (like o dislike)
     public function saveSwipe($userId, $targetUserId, $action) {
-        try {
-            // Validar acción
-            if (!in_array($action, ['like', 'dislike'])) {
-                throw new Exception('Acción inválida');
-            }
-            
-            // Guardar el swipe
-            $saved = $this->matchRepository->saveSwipe($userId, $targetUserId, $action);
-            
-            if (!$saved) {
-                throw new Exception('Error al guardar el swipe');
-            }
-            
-            $response = ['success' => true, 'message' => 'Swipe guardado correctamente'];
-            
-            // Si es un like, verificar si hay match
-            if ($action === 'like') {
-                $isMatch = $this->matchRepository->checkMatch($userId, $targetUserId);
-                
-                if ($isMatch) {
-                    // Crear el match
-                    $this->matchRepository->createMatch($userId, $targetUserId);
-                    $response['match'] = true;
-                    $response['message'] = '¡Es un match!';
-                } else {
-                    $response['match'] = false;
-                }
-            }
-            
-            header('Content-Type: application/json');
-            echo json_encode($response);
-            
-        } catch (Exception $e) {
-            header('Content-Type: application/json');
-            echo json_encode([
-                'success' => false,
-                'error' => $e->getMessage()
-            ]);
-        }
+        require_once __DIR__ . '/../../models/MatchRepository.php';
+        $matchRepo = new MatchRepository();
+        $result = $matchRepo->saveSwipe($userId, $targetUserId, $action);
+        echo json_encode(['success' => $result]);
     }
     
     // Obtener matches del usuario
@@ -119,5 +61,15 @@ class SwipeController {
                 'error' => 'Error al obtener matches'
             ]);
         }
+    }
+
+    public function showSwipe() {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: login.php');
+            exit;
+        }
+        $userController = new UserController();
+        $currentUser = $userController->getCurrentUser();
+        include __DIR__ . '/../views/swipe.php';
     }
 } 
