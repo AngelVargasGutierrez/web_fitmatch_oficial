@@ -414,8 +414,13 @@ unset($_SESSION['form_data'], $_SESSION['errors']);
             .then(response => {
                 if (response.success) {
                     window.location.href = response.redirect || 'swipe.php';
+                } else if (response.error) {
+                    alert(response.error);
+                } else if (response.errors) {
+                    // Si hay errores de validación, los mostramos todos
+                    alert(Object.values(response.errors).join('\n'));
                 } else {
-                    alert(response.error || 'Error al registrar usuario');
+                    alert('Error al registrar usuario');
                 }
             })
             .catch(err => {
