@@ -158,7 +158,7 @@ let currentIndex = 0;
 
 async function loadProfiles() {
     try {
-        const response = await fetch('/Fitmatch/public/api/swipe_api.php?action=recommendations');
+        const response = await fetch('/api/swipe_api.php?action=recommendations');
         const data = await response.json();
         if (data.success && Array.isArray(data.data)) {
             profiles = data.data;
@@ -216,7 +216,7 @@ async function handleSwipe(action) {
     if (profiles.length === 0 || currentIndex >= profiles.length) return;
     const p = profiles[currentIndex];
     try {
-        await fetch('/Fitmatch/public/api/swipe_api.php?action=swipe', {
+        await fetch('/api/swipe_api.php?action=swipe', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ target_user_id: p.id, action })

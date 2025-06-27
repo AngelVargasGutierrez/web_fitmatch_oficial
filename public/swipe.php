@@ -8,7 +8,7 @@ if (!$userController->isLoggedIn()) {
 require_once __DIR__ . '/../app/controllers/SwipeController.php';
 $swipeController = new SwipeController();
 $swipeController->showSwipe();
-$currentUser = $swipeController->getCurrentUser();
+$currentUser = $userController->getCurrentUser();
 ?>
 <!DOCTYPE html>
 <html lang="es">
