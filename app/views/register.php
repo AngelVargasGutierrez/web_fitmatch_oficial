@@ -413,7 +413,7 @@ unset($_SESSION['form_data'], $_SESSION['errors']);
             .then(res => res.json())
             .then(response => {
                 if (response.success) {
-                    window.location.href = response.redirect || 'swipe.php';
+                    window.location.href = response.redirect || '/swipe.php';
                 } else if (response.error) {
                     alert(response.error);
                 } else if (response.errors) {
