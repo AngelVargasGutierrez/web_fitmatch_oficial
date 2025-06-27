@@ -20,9 +20,12 @@ class SwipeController {
         $swipedIds = $matchRepo->getSwipedUserIdsMongo($userId);
         $swipedIds = array_map('strval', $swipedIds); // Forzar string
         $users = $userRepo->getAllUsers($userId);
+        error_log('Usuarios encontrados: ' . count($users));
+        error_log('IDs swippeados: ' . json_encode($swipedIds));
         $filtered = array_filter($users, function($u) use ($swipedIds) {
             return !in_array((string)$u['id'], $swipedIds);
         });
+        error_log('Usuarios filtrados: ' . count($filtered));
         echo json_encode(['success' => true, 'data' => array_values($filtered)]);
     }
     
