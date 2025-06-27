@@ -12,7 +12,7 @@
                 <p class="mb-1"><strong>Email:</strong> <?php echo htmlspecialchars($user['email']); ?></p>
                 <p class="mb-1"><strong>Nombre:</strong> <?php echo htmlspecialchars($user['first_name']); ?></p>
                 <p class="mb-1"><strong>Apellido:</strong> <?php echo htmlspecialchars($user['last_name']); ?></p>
-                <a href="/Fitmatch/app/views/edit_profile.php" class="btn btn-primary mt-3">Editar Perfil</a>
+                <a href="/edit_profile.php" class="btn btn-primary mt-3">Editar Perfil</a>
             </div>
         </div>
     </div>
