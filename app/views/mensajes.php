@@ -78,7 +78,7 @@ async function loadMatches() {
     matches.forEach((m, i) => {
         const item = document.createElement('div');
         item.className = 'match-item';
-        item.innerHTML = `<div class='match-avatar'><i class='fas fa-user'></i></div>
+        item.innerHTML = `<div class='match-avatar'><img src="/mostrar_foto.php?id=${m.id}" alt="Foto de perfil" style="width:48px;height:48px;object-fit:cover;border-radius:50%;"></div>
             <div class='match-info'><div class='match-name'>${m.first_name || m.username}</div></div>`;
         item.onclick = () => selectMatch(i);
         list.appendChild(item);

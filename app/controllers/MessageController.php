@@ -29,7 +29,11 @@ class MessageController {
         $matchIds = $matchRepo->getMatchesMongo($userId);
         $matches = [];
         foreach ($matchIds as $id) {
-            $matches[] = $userRepo->findById($id);
+            $user = $userRepo->findById($id);
+            if (isset($user['foto_perfil_blob'])) {
+                unset($user['foto_perfil_blob']);
+            }
+            $matches[] = $user;
         }
         echo json_encode(['success' => true, 'matches' => $matches]);
     }
