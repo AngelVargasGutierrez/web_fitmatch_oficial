@@ -340,12 +340,16 @@ class UserController {
                 $fotoPerfil = '/uploads/' . $fileName;
             }
         }
-        // Si no se subió nueva foto, mantener la actual
-        if ($fotoPerfil === null) {
-            $datosActuales = $this->userRepository->getDatosUsuario($userId);
-            $fotoPerfil = $datosActuales['foto_perfil'] ?? null;
+        // Actualizar username/email en users (trigger sincroniza datos_usuario)
+        $userData = [
+            'username' => $username,
+            'email' => $email
+        ];
+        $this->userRepository->updateUser($userId, $userData);
+        // Solo actualizar la foto en datos_usuario si hay nueva foto
+        if ($fotoPerfil !== null) {
+            $this->userRepository->actualizarDatosUsuario($userId, null, null, $fotoPerfil);
         }
-        $this->userRepository->actualizarDatosUsuario($userId, $username, $email, $fotoPerfil);
         $_SESSION['success'] = 'Perfil actualizado correctamente';
         header('Location: /swipe.php');
         exit;

@@ -129,7 +129,17 @@ class UserRepository {
             $sql .= " WHERE u.id != ?";
             $params[] = $excludeUserId;
         }
-        return $this->db->fetchAll($sql, $params);
+        $users = $this->db->fetchAll($sql, $params);
+        // Añadir foto_perfil desde datos_usuario si existe
+        foreach ($users as &$user) {
+            $datos = $this->getDatosUsuario($user['id']);
+            if ($datos && !empty($datos['foto_perfil'])) {
+                $user['foto_perfil'] = $datos['foto_perfil'];
+            } else {
+                $user['foto_perfil'] = null;
+            }
+        }
+        return $users;
     }
     private function calculateAge($birthDate) {
         $birth = new DateTime($birthDate);
@@ -182,9 +192,25 @@ class UserRepository {
     }
 
     // Actualizar datos de usuario (nombre, email, foto)
-    public function actualizarDatosUsuario($userId, $username, $email, $fotoPerfil = null) {
-        $sql = "UPDATE datos_usuario SET username = ?, email = ?, foto_perfil = ? WHERE user_id = ?";
-        return $this->db->execute($sql, [$username, $email, $fotoPerfil, $userId]);
+    public function actualizarDatosUsuario($userId, $username = null, $email = null, $fotoPerfil = null) {
+        $fields = [];
+        $params = [];
+        if ($username !== null) {
+            $fields[] = "username = ?";
+            $params[] = $username;
+        }
+        if ($email !== null) {
+            $fields[] = "email = ?";
+            $params[] = $email;
+        }
+        if ($fotoPerfil !== null) {
+            $fields[] = "foto_perfil = ?";
+            $params[] = $fotoPerfil;
+        }
+        if (empty($fields)) return false;
+        $params[] = $userId;
+        $sql = "UPDATE datos_usuario SET " . implode(', ', $fields) . " WHERE user_id = ?";
+        return $this->db->execute($sql, $params);
     }
     // Agrega más métodos según lo necesites
 } 
