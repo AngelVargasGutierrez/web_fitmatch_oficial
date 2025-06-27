@@ -1,14 +1,14 @@
 <?php
 require_once __DIR__ . '/../app/controllers/SwipeController.php';
 $swipeController = new SwipeController();
-$swipeController->showSwipe();
 
-// Verificar si el usuario está logueado
+// Verificar si el usuario está logueado ANTES de mostrar la vista
 if (!$swipeController->isLoggedIn()) {
     header('Location: login.php');
     exit;
 }
 
+$swipeController->showSwipe();
 $currentUser = $swipeController->getCurrentUser();
 ?>
 <!DOCTYPE html>
