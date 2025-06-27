@@ -184,20 +184,7 @@ function renderProfile() {
     const card = document.createElement('div');
     card.className = 'profile-card';
     card.innerHTML = `
-        <div class="profile-img">
-            ${p.foto_perfil ? `<img src="${p.foto_perfil}" alt="Foto de perfil" style="width:100%;height:220px;object-fit:cover;">` : `<i class='fas fa-user'></i>`}
-        </div>
-        <div class="profile-info">
-            <h2>${p.first_name ? p.first_name : p.username}, ${p.age ? p.age : ''}</h2>
-            <div class="location"><i class="fas fa-map-marker-alt me-1"></i> ${p.location ? p.location : 'No especificada'}</div>
-            <div class="sport"><i class="fas fa-dumbbell me-1"></i> ${p.sport ? p.sport : 'Sin deporte'}</div>
-            <div class="exp"><i class="fas fa-clock me-1"></i> ${p.experience ? p.experience : 'Sin experiencia'}</div>
-            <div class="tags">
-                ${(p.tags ? p.tags.map(tag => `<span class='tag'>${tag}</span>`).join('') : '')}
-            </div>
-            <div class="bio">${p.bio ? p.bio : ''}</div>
-        </div>
-    `;
+        <div class=\"profile-img\">\n            <img src=\"/mostrar_foto.php?id=${p.id}\" alt=\"Foto de perfil\" style=\"width:100%;height:220px;object-fit:cover;\">\n        </div>\n        <div class=\"profile-info\">\n            <h2>${p.first_name ? p.first_name : p.username}, ${p.age ? p.age : ''}</h2>\n            <div class=\"location\"><i class=\"fas fa-map-marker-alt me-1\"></i> ${p.location ? p.location : 'No especificada'}</div>\n            <div class=\"sport\"><i class=\"fas fa-dumbbell me-1\"></i> ${p.sport ? p.sport : 'Sin deporte'}</div>\n            <div class=\"exp\"><i class=\"fas fa-clock me-1\"></i> ${p.experience ? p.experience : 'Sin experiencia'}</div>\n            <div class=\"tags\">\n                ${(p.tags ? p.tags.map(tag => `<span class='tag'>${tag}</span>`).join('') : '')}\n            </div>\n            <div class=\"bio\">${p.bio ? p.bio : ''}</div>\n        </div>\n    `;
     container.appendChild(card);
     remaining.textContent = `${profiles.length - currentIndex} perfiles restantes`;
 }

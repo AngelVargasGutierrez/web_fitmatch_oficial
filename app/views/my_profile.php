@@ -39,11 +39,7 @@
     <div class="profile-container">
         <div class="profile-title">Mi Perfil</div>
         <div class="text-center mb-4">
-            <?php if (!empty($user['foto_perfil'])): ?>
-                <img src="<?php echo htmlspecialchars($user['foto_perfil']); ?>" alt="Foto de perfil" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover;">
-            <?php else: ?>
-                <i class="fa fa-user-circle fa-5x text-secondary"></i>
-            <?php endif; ?>
+            <img src="/mostrar_foto.php?id=<?php echo $user['id']; ?>" alt="Foto de perfil" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover;">
         </div>
         <form method="POST" action="/my_profile.php" enctype="multipart/form-data" class="mb-4">
             <div class="mb-3">

@@ -201,5 +201,9 @@ class UserRepository {
         $sql = "UPDATE datos_usuario SET " . implode(', ', $fields) . " WHERE user_id = ?";
         return $this->db->execute($sql, $params);
     }
+    public function guardarFotoPerfilBinaria($userId, $imgData) {
+        $sql = "UPDATE users SET foto_perfil_blob = ? WHERE id = ?";
+        $this->db->execute($sql, [$imgData, $userId]);
+    }
     // Agrega más métodos según lo necesites
 } 
