@@ -26,7 +26,9 @@ class SwipeController {
             return !in_array((string)$u['id'], $swipedIds);
         });
         error_log('Usuarios filtrados: ' . count($filtered));
-        echo json_encode(['success' => true, 'data' => array_values($filtered)]);
+        $json = json_encode(['success' => true, 'data' => array_values($filtered)]);
+        error_log('JSON enviado: ' . $json);
+        echo $json;
     }
     
     // Guardar swipe (like o dislike)
