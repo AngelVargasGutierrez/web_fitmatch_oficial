@@ -21,7 +21,7 @@ class UserController {
     // Mostrar página de login
     public function showLogin() {
         if ($this->isLoggedIn()) {
-            header('Location: index.php');
+            header('Location: /swipe.php');
             exit;
         }
         include __DIR__ . '/../views/login.php';
@@ -30,7 +30,7 @@ class UserController {
     // Mostrar página de registro
     public function showRegister() {
         if ($this->isLoggedIn()) {
-            header('Location: index.php');
+            header('Location: /swipe.php');
             exit;
         }
         include __DIR__ . '/../views/register.php';
