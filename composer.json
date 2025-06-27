@@ -3,8 +3,15 @@
         "predis/predis": "^2.0",
         "ext-pdo": "*",
         "ext-mongodb": "*",
+        "ext-redis": "*",
+        "ext-mysqli": "*",
         "sendgrid/sendgrid": "^8.1",
         "phpmailer/phpmailer": "^6.10",
         "mongodb/mongodb": "^1.19"
+    },
+    "config": {
+        "platform": {
+            "php": "8.1"
+        }
     }
 }
