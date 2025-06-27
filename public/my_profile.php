@@ -2,7 +2,32 @@
 require_once __DIR__ . '/../app/controllers/UserController.php';
 $userController = new UserController();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $userController->updateProfile();
+    // Subida de foto de perfil
+    if (isset($_FILES['foto_perfil']) && $_FILES['foto_perfil']['error'] === UPLOAD_ERR_OK) {
+        $userId = $_SESSION['user_id'];
+        $ext = pathinfo($_FILES['foto_perfil']['name'], PATHINFO_EXTENSION);
+        $fileName = 'perfil_' . $userId . '_' . time() . '.' . $ext;
+        $destino = __DIR__ . '/uploads/' . $fileName;
+        if (move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $destino)) {
+            require_once __DIR__ . '/../models/UserRepository.php';
+            $userRepo = new UserRepository();
+            // Obtener username y email actuales para no perderlos
+            $datos = $userRepo->getDatosUsuario($userId);
+            $username = $datos['username'] ?? null;
+            $email = $datos['email'] ?? null;
+            $userRepo->actualizarDatosUsuario($userId, $username, $email, '/uploads/' . $fileName);
+            echo '<div class="alert alert-success text-center mt-5">Foto de perfil actualizada correctamente. Redirigiendo...</div>';
+            echo '<script>setTimeout(function(){ window.location.href = "/swipe.php"; }, 1500);</script>';
+            exit;
+        } else {
+            echo '<div class="alert alert-danger text-center mt-5">Error al subir la foto de perfil.</div>';
+        }
+    } else {
+        echo '<div class="alert alert-danger text-center mt-5">No se seleccionó ninguna foto o hubo un error en la subida.</div>';
+    }
+    // Mostrar el perfil de nuevo si hubo error
+    $user = $userController->getCurrentUser();
+    $userController->showMyProfile();
 } else {
     // Validar sesión antes de mostrar perfil
     if (!isset($_SESSION)) session_start();

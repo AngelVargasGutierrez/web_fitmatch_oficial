@@ -45,7 +45,7 @@
                 <i class="fa fa-user-circle fa-5x text-secondary"></i>
             <?php endif; ?>
         </div>
-        <form method="POST" action="/actualizar_perfil.php" enctype="multipart/form-data" class="mb-4">
+        <form method="POST" action="/my_profile.php" enctype="multipart/form-data" class="mb-4">
             <div class="mb-3">
                 <label for="foto_perfil" class="form-label">Actualizar foto de perfil</label>
                 <input type="file" name="foto_perfil" id="foto_perfil" class="form-control">
