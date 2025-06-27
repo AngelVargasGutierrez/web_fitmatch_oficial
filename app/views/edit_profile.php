@@ -1,4 +1,4 @@
-<?php if (!isset($datos) || !is_array($datos)) { $datos = []; } ?>
+<?php if (!isset($user) || !is_array($user)) { $user = []; } ?>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-3 col-lg-2 p-0">
@@ -10,8 +10,8 @@
           <h2 class="mb-4 text-center">Editar Perfil</h2>
           <form method="POST" action="/actualizar_perfil.php" enctype="multipart/form-data">
             <div class="mb-3 text-center">
-              <?php if (!empty($datos['foto_perfil'])): ?>
-                <img src="<?php echo htmlspecialchars($datos['foto_perfil']); ?>" alt="Foto de perfil" class="rounded-circle mb-2" style="width: 100px; height: 100px; object-fit: cover;">
+              <?php if (!empty($user['foto_perfil_blob'])): ?>
+                <img src="/mostrar_foto.php?id=<?php echo urlencode($user['id'] ?? $user['user_id'] ?? ''); ?>" alt="Foto de perfil" class="rounded-circle mb-2" style="width: 100px; height: 100px; object-fit: cover;">
               <?php else: ?>
                 <i class="fa fa-user-circle fa-5x mb-2 text-secondary"></i>
               <?php endif; ?>
@@ -22,11 +22,11 @@
             </div>
             <div class="mb-3">
               <label for="username" class="form-label">Nombre de usuario</label>
-              <input type="text" class="form-control" id="username" name="username" value="<?php echo htmlspecialchars($datos['username'] ?? ''); ?>" required>
+              <input type="text" class="form-control" id="username" name="username" value="<?php echo htmlspecialchars($user['username'] ?? ''); ?>" required>
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Correo electrónico</label>
-              <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($datos['email'] ?? ''); ?>" required>
+              <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($user['email'] ?? ''); ?>" required>
             </div>
             <div class="d-grid gap-2">
               <button type="submit" class="btn btn-success">Guardar Cambios</button>

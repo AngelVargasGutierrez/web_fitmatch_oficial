@@ -307,13 +307,7 @@ class UserController {
             exit;
         }
         $userId = $_SESSION['user_id'];
-        $datos = $this->userRepository->getDatosUsuario($userId);
-        if (!$datos) {
-            // Si no existen datos, crearlos con los datos actuales
-            $user = $this->userRepository->findById($userId);
-            $this->userRepository->crearDatosUsuario($userId, $user['username'], $user['email']);
-            $datos = $this->userRepository->getDatosUsuario($userId);
-        }
+        $user = $this->userRepository->findById($userId);
         include __DIR__ . '/edit_profile.php';
     }
 
