@@ -8,18 +8,13 @@
       <div class="card" style="max-width: 500px; width: 100%;">
         <div class="card-body">
           <h2 class="mb-4 text-center">Editar Perfil</h2>
-          <form method="POST" action="/actualizar_perfil.php" enctype="multipart/form-data">
-            <div class="mb-3 text-center">
-              <?php if (!empty($user['foto_perfil_blob'])): ?>
-                <img src="/mostrar_foto.php?id=<?php echo urlencode($user['id'] ?? $user['user_id'] ?? ''); ?>" alt="Foto de perfil" class="rounded-circle mb-2" style="width: 100px; height: 100px; object-fit: cover;">
-              <?php else: ?>
-                <i class="fa fa-user-circle fa-5x mb-2 text-secondary"></i>
-              <?php endif; ?>
-            </div>
-            <div class="mb-3">
-              <label for="foto_perfil" class="form-label">Foto de perfil</label>
-              <input type="file" class="form-control" id="foto_perfil" name="foto_perfil" accept="image/*">
-            </div>
+          
+          <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger"><?php echo htmlspecialchars($_SESSION['error']); ?></div>
+            <?php unset($_SESSION['error']); ?>
+          <?php endif; ?>
+          
+          <form method="POST" action="/edit_profile.php">
             <div class="mb-3">
               <label for="username" class="form-label">Nombre de usuario</label>
               <input type="text" class="form-control" id="username" name="username" value="<?php echo htmlspecialchars($user['username'] ?? ''); ?>" required>

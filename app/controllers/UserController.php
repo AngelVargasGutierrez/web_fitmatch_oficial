@@ -306,9 +306,43 @@ class UserController {
             header('Location: /login.php');
             exit;
         }
+        
+        // Procesar formulario si es POST
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_SESSION['user_id'];
+            $username = $_POST['username'] ?? '';
+            $email = $_POST['email'] ?? '';
+            
+            // Validaciones básicas
+            if (empty($username) || empty($email)) {
+                $_SESSION['error'] = 'Por favor completa todos los campos';
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $_SESSION['error'] = 'El email no es válido';
+            } else {
+                // Actualizar usuario
+                $updateData = [
+                    'username' => $username,
+                    'email' => $email
+                ];
+                
+                $updated = $this->userRepository->updateUser($userId, $updateData);
+                
+                if ($updated) {
+                    $_SESSION['success'] = 'Perfil actualizado correctamente';
+                    $_SESSION['username'] = $username;
+                    $_SESSION['email'] = $email;
+                    header('Location: /my_profile.php');
+                    exit;
+                } else {
+                    $_SESSION['error'] = 'Error al actualizar el perfil';
+                }
+            }
+        }
+        
+        // Mostrar formulario
         $userId = $_SESSION['user_id'];
         $user = $this->userRepository->findById($userId);
-        include __DIR__ . '/edit_profile.php';
+        include __DIR__ . '/../views/edit_profile.php';
     }
 
     // Procesar actualización de perfil extendido
