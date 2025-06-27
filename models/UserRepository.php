@@ -64,30 +64,26 @@ class UserRepository {
         return false;
     }
     public function updateUser($id, $userData) {
-        $sql = "UPDATE users SET 
-                first_name = ?, 
-                last_name = ?, 
-                email = ?, 
-                birth_date = ?, 
-                gender = ?, 
-                bio = ?, 
-                interests = ?, 
-                location = ?, 
-                foto_perfil = ?, 
-                updated_at = NOW() 
-                WHERE id = ?";
-        $params = [
-            $userData['first_name'],
-            $userData['last_name'],
-            $userData['email'],
-            $userData['birth_date'],
-            $userData['gender'],
-            $userData['bio'] ?? '',
-            $userData['interests'] ?? '',
-            $userData['location'] ?? '',
-            $userData['foto_perfil'] ?? null,
-            $id
-        ];
+        $fields = [];
+        $params = [];
+        
+        // Campos permitidos para actualización
+        $allowedFields = ['first_name', 'last_name', 'email', 'birth_date', 'gender', 'bio', 'interests', 'location', 'foto_perfil', 'username'];
+        
+        foreach ($allowedFields as $field) {
+            if (isset($userData[$field])) {
+                $fields[] = "$field = ?";
+                $params[] = $userData[$field];
+            }
+        }
+        
+        if (empty($fields)) {
+            return false;
+        }
+        
+        $params[] = $id;
+        $sql = "UPDATE users SET " . implode(', ', $fields) . ", updated_at = NOW() WHERE id = ?";
+        
         try {
             $this->db->execute($sql, $params);
             return true;
@@ -214,6 +210,15 @@ class UserRepository {
     public function guardarFotoPerfilBinaria($userId, $imgData) {
         $sql = "UPDATE users SET foto_perfil_blob = ? WHERE id = ?";
         $this->db->execute($sql, [$imgData, $userId]);
+    }
+    public function updateBasicInfo($id, $username, $email) {
+        $sql = "UPDATE users SET username = ?, email = ?, updated_at = NOW() WHERE id = ?";
+        try {
+            $this->db->execute($sql, [$username, $email, $id]);
+            return true;
+        } catch (Exception $e) {
+            throw new Exception("Error al actualizar información básica: " . $e->getMessage());
+        }
     }
     // Agrega más métodos según lo necesites
 } 

@@ -319,13 +319,8 @@ class UserController {
             } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $_SESSION['error'] = 'El email no es válido';
             } else {
-                // Actualizar usuario
-                $updateData = [
-                    'username' => $username,
-                    'email' => $email
-                ];
-                
-                $updated = $this->userRepository->updateUser($userId, $updateData);
+                // Actualizar usuario usando el método específico
+                $updated = $this->userRepository->updateBasicInfo($userId, $username, $email);
                 
                 if ($updated) {
                     $_SESSION['success'] = 'Perfil actualizado correctamente';
