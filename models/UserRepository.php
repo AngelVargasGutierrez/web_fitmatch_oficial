@@ -128,6 +128,12 @@ class UserRepository {
             $params[] = $excludeUserId;
         }
         $users = $this->db->fetchAll($sql, $params);
+        // Forzar que el campo id esté presente y sea 'id'
+        foreach ($users as &$user) {
+            if (!isset($user['id']) && isset($user['user_id'])) {
+                $user['id'] = $user['user_id'];
+            }
+        }
         return $users;
     }
     private function calculateAge($birthDate) {
