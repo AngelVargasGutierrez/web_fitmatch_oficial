@@ -11,11 +11,11 @@ class UserRepository {
         return $this->db->fetch($sql, [$id]);
     }
     public function findByPreferences($userId) {
-        $sql = "SELECT * FROM users u JOIN profiles p ON u.id = p.user_id WHERE p.preferences = (SELECT preferences FROM profiles WHERE user_id = ?)";
+        $sql = "SELECT * FROM users WHERE id = ?";
         return $this->db->fetchAll($sql, [$userId]);
     }
     public function updatePreferences($userId, $preferences) {
-        $sql = "UPDATE profiles SET preferences = ? WHERE user_id = ?";
+        $sql = "UPDATE users SET preferences = ? WHERE id = ?";
         return $this->db->execute($sql, [json_encode($preferences), $userId]);
     }
     // Métodos de autenticación
@@ -100,38 +100,26 @@ class UserRepository {
     public function updateProfile($userId, $profileData) {
         $fields = [];
         $values = [];
-        
         $allowedFields = ['bio', 'location', 'interests', 'preferences'];
-        
         foreach ($allowedFields as $field) {
             if (isset($profileData[$field])) {
                 $fields[] = "$field = ?";
                 $values[] = is_array($profileData[$field]) ? json_encode($profileData[$field]) : $profileData[$field];
             }
         }
-        
         if (empty($fields)) {
             return false;
         }
-        
         $values[] = $userId;
-        
-        $sql = "UPDATE profiles SET " . implode(', ', $fields) . " WHERE user_id = ?";
+        $sql = "UPDATE users SET " . implode(', ', $fields) . " WHERE id = ?";
         return $this->db->execute($sql, $values);
     }
     public function getUserWithProfile($userId) {
-        $sql = "
-            SELECT u.*, p.* 
-            FROM users u 
-            LEFT JOIN profiles p ON u.id = p.user_id 
-            WHERE u.id = ?
-        ";
+        $sql = "SELECT * FROM users WHERE id = ?";
         $user = $this->db->fetch($sql, [$userId]);
-        
         if ($user) {
-            unset($user['password']); // No devolver la contraseña
+            unset($user['password']);
         }
-        
         return $user;
     }
     public function getAllUsers($excludeUserId = null) {
