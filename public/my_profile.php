@@ -11,11 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $destino)) {
             require_once __DIR__ . '/../models/UserRepository.php';
             $userRepo = new UserRepository();
-            // Obtener username y email actuales para no perderlos
-            $datos = $userRepo->getDatosUsuario($userId);
-            $username = $datos['username'] ?? null;
-            $email = $datos['email'] ?? null;
-            $userRepo->actualizarDatosUsuario($userId, $username, $email, '/uploads/' . $fileName);
+            // Actualizar solo la foto en users
+            $user = $userRepo->findById($userId);
+            $user['foto_perfil'] = '/uploads/' . $fileName;
+            $userRepo->updateUser($userId, $user);
             echo '<div class="alert alert-success text-center mt-5">Foto de perfil actualizada correctamente. Redirigiendo...</div>';
             echo '<script>setTimeout(function(){ window.location.href = "/swipe.php"; }, 1500);</script>';
             exit;

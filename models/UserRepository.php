@@ -73,9 +73,9 @@ class UserRepository {
                 bio = ?, 
                 interests = ?, 
                 location = ?, 
+                foto_perfil = ?, 
                 updated_at = NOW() 
                 WHERE id = ?";
-        
         $params = [
             $userData['first_name'],
             $userData['last_name'],
@@ -85,9 +85,9 @@ class UserRepository {
             $userData['bio'] ?? '',
             $userData['interests'] ?? '',
             $userData['location'] ?? '',
+            $userData['foto_perfil'] ?? null,
             $id
         ];
-
         try {
             $this->db->execute($sql, $params);
             return true;
@@ -128,15 +128,6 @@ class UserRepository {
             $params[] = $excludeUserId;
         }
         $users = $this->db->fetchAll($sql, $params);
-        // Añadir foto_perfil desde datos_usuario si existe
-        foreach ($users as &$user) {
-            $datos = $this->getDatosUsuario($user['id']);
-            if ($datos && !empty($datos['foto_perfil'])) {
-                $user['foto_perfil'] = $datos['foto_perfil'];
-            } else {
-                $user['foto_perfil'] = null;
-            }
-        }
         return $users;
     }
     private function calculateAge($birthDate) {

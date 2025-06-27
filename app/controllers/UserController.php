@@ -163,11 +163,7 @@ class UserController {
         }
         $user = $this->getCurrentUser();
         $userId = $_SESSION['user_id'];
-        $datos = $this->userRepository->getDatosUsuario($userId);
-        // Si existe foto de perfil en datos_usuario, usarla
-        if ($datos && !empty($datos['foto_perfil'])) {
-            $user['foto_perfil'] = $datos['foto_perfil'];
-        }
+        // Ya no se usa datos_usuario, la foto está en users
         // Log para depuración
         if (!$user) {
             $logMsg = date('Y-m-d H:i:s') . " - Error: Usuario no encontrado en getCurrentUser. user_id: $userId\n";
@@ -340,16 +336,14 @@ class UserController {
                 $fotoPerfil = '/uploads/' . $fileName;
             }
         }
-        // Actualizar username/email en users (trigger sincroniza datos_usuario)
-        $userData = [
-            'username' => $username,
-            'email' => $email
-        ];
-        $this->userRepository->updateUser($userId, $userData);
-        // Solo actualizar la foto en datos_usuario si hay nueva foto
+        // Actualizar username/email y foto en users
+        $user = $this->userRepository->findById($userId);
+        $user['username'] = $username;
+        $user['email'] = $email;
         if ($fotoPerfil !== null) {
-            $this->userRepository->actualizarDatosUsuario($userId, null, null, $fotoPerfil);
+            $user['foto_perfil'] = $fotoPerfil;
         }
+        $this->userRepository->updateUser($userId, $user);
         $_SESSION['success'] = 'Perfil actualizado correctamente';
         header('Location: /swipe.php');
         exit;
