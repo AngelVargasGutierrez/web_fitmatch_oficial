@@ -29,6 +29,13 @@
     </style>
 </head>
 <body>
+    <?php if (empty($user)): ?>
+        <div class="alert alert-danger text-center mt-5">
+            Error: No se pudo cargar el perfil del usuario.<br>
+            <a href="/login.php" class="btn btn-primary mt-3">Iniciar sesión</a>
+        </div>
+        <?php exit; ?>
+    <?php endif; ?>
     <div class="profile-container">
         <div class="profile-title">Mi Perfil</div>
         <div class="text-center mb-4">

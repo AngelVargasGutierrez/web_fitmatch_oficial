@@ -157,6 +157,7 @@ class UserController {
     // Mostrar perfil del usuario actual
     public function showMyProfile() {
         if (!$this->isLoggedIn()) {
+            file_put_contents(__DIR__ . '/../../logs/user_errors.log', date('Y-m-d H:i:s') . " - Usuario no logueado\n", FILE_APPEND);
             header('Location: /login.php');
             exit;
         }
@@ -166,6 +167,12 @@ class UserController {
         // Si existe foto de perfil en datos_usuario, usarla
         if ($datos && !empty($datos['foto_perfil'])) {
             $user['foto_perfil'] = $datos['foto_perfil'];
+        }
+        // Log para depuración
+        if (!$user) {
+            $logMsg = date('Y-m-d H:i:s') . " - Error: Usuario no encontrado en getCurrentUser. user_id: $userId\n";
+            $logMsg .= 'SESSION: ' . print_r($_SESSION, true) . "\n";
+            file_put_contents(__DIR__ . '/../../logs/user_errors.log', $logMsg, FILE_APPEND);
         }
         include __DIR__ . '/../views/my_profile.php';
     }
@@ -311,7 +318,7 @@ class UserController {
             $this->userRepository->crearDatosUsuario($userId, $user['username'], $user['email']);
             $datos = $this->userRepository->getDatosUsuario($userId);
         }
-        include __DIR__ . '/../views/edit_profile.php';
+        include __DIR__ . '/edit_profile.php';
     }
 
     // Procesar actualización de perfil extendido
