@@ -133,6 +133,10 @@ class UserRepository {
             if (!isset($user['id']) && isset($user['user_id'])) {
                 $user['id'] = $user['user_id'];
             }
+            // Eliminar el campo binario si existe
+            if (isset($user['foto_perfil_blob'])) {
+                unset($user['foto_perfil_blob']);
+            }
         }
         return $users;
     }
