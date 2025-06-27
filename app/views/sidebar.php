@@ -12,5 +12,8 @@
     <a href="#" class="sidebar-link" style="display: flex; align-items: center; color: #222; padding: 1rem; border-radius: 12px; text-decoration: none; font-weight: 500;">
         <i class="fa fa-cog" style="margin-right: 10px;"></i> Configuración
     </a>
+    <a href="/logout.php" class="sidebar-link" style="display: flex; align-items: center; color: #e53935; padding: 1rem; border-radius: 12px; margin-top: 2rem; text-decoration: none; font-weight: 500; background: #fff3f3;">
+        <i class="fa fa-sign-out-alt" style="margin-right: 10px;"></i> Cerrar sesión
+    </a>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 

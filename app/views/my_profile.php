@@ -36,6 +36,32 @@
         </div>
         <?php exit; ?>
     <?php endif; ?>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3 col-lg-2 p-0">
+          <?php include __DIR__ . '/sidebar.php'; ?>
+        </div>
+        <div class="col-md-9 col-lg-10">
+          <div class="profile-container">
+            <div class="profile-title">Mi Perfil</div>
+            <div class="text-center mb-4">
+                <img src="/mostrar_foto.php?id=<?php echo $user['id']; ?>" alt="Foto de perfil" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover;">
+            </div>
+            <form method="POST" action="/my_profile.php" enctype="multipart/form-data" class="mb-4">
+                <div class="mb-3">
+                    <label for="foto_perfil" class="form-label">Actualizar foto de perfil</label>
+                    <input type="file" name="foto_perfil" id="foto_perfil" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success">Subir Foto</button>
+            </form>
+            <div class="profile-info">
+                <p><strong>Usuario:</strong> <?php echo htmlspecialchars($user['username']); ?></p>
+                <p><strong>Email:</strong> <?php echo htmlspecialchars($user['email']); ?></p>
+                <p><strong>Nombre:</strong> <?php echo htmlspecialchars($user['first_name']); ?></p>
+                <p><strong>Apellido:</strong> <?php echo htmlspecialchars($user['last_name']); ?></p>
+                <!-- Agrega más campos según tu modelo -->
+            </div>
+            <a href="/edit_profile.php" class="btn btn-primary btn-edit">Editar Perfil</a>
     <div class="profile-container">
         <div class="profile-title">Mi Perfil</div>
         <div class="text-center mb-4">
