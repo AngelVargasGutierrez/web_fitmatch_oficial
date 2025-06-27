@@ -181,5 +181,22 @@ class UserRepository {
         $sql = "UPDATE users SET email_verified = 1, verification_token = NULL WHERE id = ?";
         return $this->db->execute($sql, [$userId]);
     }
+    // Obtener datos de usuario extendidos
+    public function getDatosUsuario($userId) {
+        $sql = "SELECT * FROM datos_usuario WHERE user_id = ?";
+        return $this->db->fetch($sql, [$userId]);
+    }
+
+    // Crear datos de usuario (si no existen)
+    public function crearDatosUsuario($userId, $username, $email) {
+        $sql = "INSERT INTO datos_usuario (user_id, username, email) VALUES (?, ?, ?)";
+        return $this->db->execute($sql, [$userId, $username, $email]);
+    }
+
+    // Actualizar datos de usuario (nombre, email, foto)
+    public function actualizarDatosUsuario($userId, $username, $email, $fotoPerfil = null) {
+        $sql = "UPDATE datos_usuario SET username = ?, email = ?, foto_perfil = ? WHERE user_id = ?";
+        return $this->db->execute($sql, [$username, $email, $fotoPerfil, $userId]);
+    }
     // Agrega más métodos según lo necesites
 } 

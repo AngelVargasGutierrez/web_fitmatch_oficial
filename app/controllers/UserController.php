@@ -160,8 +160,13 @@ class UserController {
             header('Location: /Fitmatch/public/login.php');
             exit;
         }
-        
         $user = $this->getCurrentUser();
+        $userId = $_SESSION['user_id'];
+        $datos = $this->userRepository->getDatosUsuario($userId);
+        // Si existe foto de perfil en datos_usuario, usarla
+        if ($datos && !empty($datos['foto_perfil'])) {
+            $user['foto_perfil'] = $datos['foto_perfil'];
+        }
         include __DIR__ . '/../views/my_profile.php';
     }
     
@@ -290,5 +295,52 @@ class UserController {
         }
         
         echo json_encode(['available' => !$exists]);
+    }
+    
+    // Mostrar formulario de edición de perfil extendido
+    public function showEditProfile() {
+        if (!$this->isLoggedIn()) {
+            header('Location: /Fitmatch/public/login.php');
+            exit;
+        }
+        $userId = $_SESSION['user_id'];
+        $datos = $this->userRepository->getDatosUsuario($userId);
+        if (!$datos) {
+            // Si no existen datos, crearlos con los datos actuales
+            $user = $this->userRepository->findById($userId);
+            $this->userRepository->crearDatosUsuario($userId, $user['username'], $user['email']);
+            $datos = $this->userRepository->getDatosUsuario($userId);
+        }
+        include __DIR__ . '/../views/edit_profile.php';
+    }
+
+    // Procesar actualización de perfil extendido
+    public function updateProfileExtended() {
+        if (!$this->isLoggedIn()) {
+            header('Location: /Fitmatch/public/login.php');
+            exit;
+        }
+        $userId = $_SESSION['user_id'];
+        $username = $_POST['username'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $fotoPerfil = null;
+        // Manejar subida de foto
+        if (isset($_FILES['foto_perfil']) && $_FILES['foto_perfil']['error'] === UPLOAD_ERR_OK) {
+            $ext = pathinfo($_FILES['foto_perfil']['name'], PATHINFO_EXTENSION);
+            $fileName = 'perfil_' . $userId . '_' . time() . '.' . $ext;
+            $destino = __DIR__ . '/../../public/uploads/' . $fileName;
+            if (move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $destino)) {
+                $fotoPerfil = '/Fitmatch/public/uploads/' . $fileName;
+            }
+        }
+        // Si no se subió nueva foto, mantener la actual
+        if ($fotoPerfil === null) {
+            $datosActuales = $this->userRepository->getDatosUsuario($userId);
+            $fotoPerfil = $datosActuales['foto_perfil'] ?? null;
+        }
+        $this->userRepository->actualizarDatosUsuario($userId, $username, $email, $fotoPerfil);
+        $_SESSION['success'] = 'Perfil actualizado correctamente';
+        header('Location: /Fitmatch/public/mi_perfil.php');
+        exit;
     }
 } 

@@ -2,11 +2,11 @@
 // Configuración de la base de datos MySQL para HeidiSQL
 return [
     'mysql' => [
-        'host' => 'localhost',
-        'port' => 3306,
+        'host' => '161.132.56.161',
+        'port' => 3307,
         'database' => 'fitmatch',
-        'username' => 'root',
-        'password' => '',
+        'username' => 'admin',
+        'password' => 'Upt2025',
         'charset' => 'utf8mb4',
         'options' => [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -15,7 +15,7 @@ return [
         ]
     ],
     'mongodb' => [
-        'host' => 'localhost',
+        'host' => '161.132.56.161',
         'port' => 27017,
         'database' => 'fitmatch',
         'username' => '',
@@ -23,7 +23,7 @@ return [
         'options' => []
     ],
     'redis' => [
-        'host' => 'localhost',
+        'host' => '161.132.56.161',
         'port' => 6379,
         'password' => null,
         'database' => 0

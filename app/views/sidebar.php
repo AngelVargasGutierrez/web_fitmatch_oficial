@@ -6,7 +6,7 @@
     <a href="/Fitmatch/public/mensajes.php" class="sidebar-link" style="display: flex; align-items: center; color: #222; padding: 1rem; border-radius: 12px; margin-bottom: 1rem; text-decoration: none; font-weight: 500;">
         <i class="fa fa-comments" style="margin-right: 10px;"></i> Mensajes
     </a>
-    <a href="/Fitmatch/app/views/user_profile.php" class="sidebar-link" style="display: flex; align-items: center; color: #222; padding: 1rem; border-radius: 12px; margin-bottom: 1rem; text-decoration: none; font-weight: 500;">
+    <a href="/Fitmatch/public/mi_perfil.php" class="sidebar-link" style="display: flex; align-items: center; color: #222; padding: 1rem; border-radius: 12px; margin-bottom: 1rem; text-decoration: none; font-weight: 500;">
         <i class="fa fa-user" style="margin-right: 10px;"></i> Mi Perfil
     </a>
     <a href="#" class="sidebar-link" style="display: flex; align-items: center; color: #222; padding: 1rem; border-radius: 12px; text-decoration: none; font-weight: 500;">
