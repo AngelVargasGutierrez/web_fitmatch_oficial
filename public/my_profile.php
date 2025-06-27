@@ -359,7 +359,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <i class="fas fa-edit me-2"></i>
                     Editar Perfil
                 </button>
-                <a href="router.php?page=swipe" class="btn btn-secondary">
+                <a href="swipe.php" class="btn btn-secondary">
                     <i class="fas fa-heart me-2"></i>
                     Ir a Swipe
                 </a>

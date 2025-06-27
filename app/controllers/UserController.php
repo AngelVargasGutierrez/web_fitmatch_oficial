@@ -60,7 +60,7 @@ class UserController {
             $_SESSION['username'] = $user['username'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['success'] = '¡Bienvenido de vuelta, ' . $user['first_name'] . '!';
-            header('Location: /Fitmatch/public/router.php?page=swipe');
+            header('Location: /Fitmatch/public/swipe.php');
             exit;
         } else {
             $_SESSION['error'] = 'Email o contraseña incorrectos';
@@ -121,7 +121,7 @@ class UserController {
                 $this->userRepository->setVerificationToken($userId, $token);
                 $verificationLink = "http://localhost/Fitmatch/public/verify_email.php?token=$token";
                 sendVerificationEmail($userData['email'], $userData['first_name'], $verificationLink);
-                echo json_encode(['success' => true, 'redirect' => '/Fitmatch/public/router.php?page=swipe']);
+                echo json_encode(['success' => true, 'redirect' => '/Fitmatch/public/swipe.php']);
                 exit;
             } else {
                 echo json_encode(['success' => false, 'error' => 'No se pudo crear el usuario.']);
