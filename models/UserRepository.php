@@ -73,7 +73,6 @@ class UserRepository {
                 bio = ?, 
                 interests = ?, 
                 location = ?, 
-                profile_picture = ?, 
                 updated_at = NOW() 
                 WHERE id = ?";
         
@@ -86,7 +85,6 @@ class UserRepository {
             $userData['bio'] ?? '',
             $userData['interests'] ?? '',
             $userData['location'] ?? '',
-            $userData['profile_picture'] ?? '',
             $id
         ];
 
