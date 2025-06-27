@@ -6,8 +6,20 @@ class RedisConn {
     private $redis;
 
     private function __construct() {
+        $config = require(__DIR__ . '/../config/database.php');
+        $redisConf = $config['redis'];
+        $host = $redisConf['host'];
+        $port = $redisConf['port'];
+        $password = $redisConf['password'];
+        $database = $redisConf['database'];
         $this->redis = new Redis();
-        $this->redis->connect('127.0.0.1', 6379);
+        $this->redis->connect($host, $port);
+        if ($password) {
+            $this->redis->auth($password);
+        }
+        if ($database) {
+            $this->redis->select($database);
+        }
     }
 
     public static function getInstance() {
