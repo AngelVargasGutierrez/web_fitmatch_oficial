@@ -18,9 +18,10 @@ class SwipeController {
         $userRepo = new UserRepository();
         $matchRepo = new MatchRepository();
         $swipedIds = $matchRepo->getSwipedUserIdsMongo($userId);
+        $swipedIds = array_map('strval', $swipedIds); // Forzar string
         $users = $userRepo->getAllUsers($userId);
         $filtered = array_filter($users, function($u) use ($swipedIds) {
-            return !in_array($u['id'], $swipedIds);
+            return !in_array((string)$u['id'], $swipedIds);
         });
         echo json_encode(['success' => true, 'data' => array_values($filtered)]);
     }
