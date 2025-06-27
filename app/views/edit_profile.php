@@ -8,7 +8,7 @@
       <div class="card" style="max-width: 500px; width: 100%;">
         <div class="card-body">
           <h2 class="mb-4 text-center">Editar Perfil</h2>
-          <form method="POST" action="/Fitmatch/public/actualizar_perfil.php" enctype="multipart/form-data">
+          <form method="POST" action="/actualizar_perfil.php" enctype="multipart/form-data">
             <div class="mb-3 text-center">
               <?php if (!empty($datos['foto_perfil'])): ?>
                 <img src="<?php echo htmlspecialchars($datos['foto_perfil']); ?>" alt="Foto de perfil" class="rounded-circle mb-2" style="width: 100px; height: 100px; object-fit: cover;">
@@ -30,7 +30,7 @@
             </div>
             <div class="d-grid gap-2">
               <button type="submit" class="btn btn-success">Guardar Cambios</button>
-              <a href="/Fitmatch/public/mi_perfil.php" class="btn btn-secondary">Cancelar</a>
+              <a href="/my_profile.php" class="btn btn-secondary">Cancelar</a>
             </div>
           </form>
         </div>

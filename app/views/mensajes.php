@@ -38,7 +38,7 @@ if (!isset($_SESSION['user_id'])) {
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-3 col-lg-2 p-0">
-      <?php include __DIR__ . '/../app/views/sidebar.php'; ?>
+      <?php include __DIR__ . '/sidebar.php'; ?>
     </div>
     <div class="col-md-9 col-lg-10">
       <div class="mensajes-container">

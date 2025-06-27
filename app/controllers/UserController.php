@@ -119,7 +119,7 @@ class UserController {
                 $_SESSION['email'] = $user['email'];
                 $token = bin2hex(random_bytes(32));
                 $this->userRepository->setVerificationToken($userId, $token);
-                $verificationLink = "http://localhost/Fitmatch/public/verify_email.php?token=$token";
+                $verificationLink = "http://localhost/verify_email.php?token=$token";
                 sendVerificationEmail($userData['email'], $userData['first_name'], $verificationLink);
                 echo json_encode(['success' => true, 'redirect' => '/swipe.php']);
                 exit;
@@ -157,7 +157,7 @@ class UserController {
     // Mostrar perfil del usuario actual
     public function showMyProfile() {
         if (!$this->isLoggedIn()) {
-            header('Location: /Fitmatch/public/login.php');
+            header('Location: /login.php');
             exit;
         }
         $user = $this->getCurrentUser();
@@ -173,7 +173,7 @@ class UserController {
     // Actualizar perfil
     public function updateProfile() {
         if (!$this->isLoggedIn()) {
-            header('Location: /Fitmatch/public/login.php');
+            header('Location: /login.php');
             exit;
         }
         
@@ -300,7 +300,7 @@ class UserController {
     // Mostrar formulario de edición de perfil extendido
     public function showEditProfile() {
         if (!$this->isLoggedIn()) {
-            header('Location: /Fitmatch/public/login.php');
+            header('Location: /login.php');
             exit;
         }
         $userId = $_SESSION['user_id'];
@@ -317,7 +317,7 @@ class UserController {
     // Procesar actualización de perfil extendido
     public function updateProfileExtended() {
         if (!$this->isLoggedIn()) {
-            header('Location: /Fitmatch/public/login.php');
+            header('Location: /login.php');
             exit;
         }
         $userId = $_SESSION['user_id'];
@@ -330,7 +330,7 @@ class UserController {
             $fileName = 'perfil_' . $userId . '_' . time() . '.' . $ext;
             $destino = __DIR__ . '/../../public/uploads/' . $fileName;
             if (move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $destino)) {
-                $fotoPerfil = '/Fitmatch/public/uploads/' . $fileName;
+                $fotoPerfil = '/uploads/' . $fileName;
             }
         }
         // Si no se subió nueva foto, mantener la actual
