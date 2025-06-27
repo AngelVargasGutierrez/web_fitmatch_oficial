@@ -119,7 +119,7 @@ unset($_SESSION['form_data'], $_SESSION['errors']);
                 <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
             </div>
         <?php endif; ?>
-        <form method="POST" action="register.php" id="registerForm">
+        <form method="POST" action="" id="registerForm">
             <div class="form-row">
                 <div class="form-group">
                     <i class="fas fa-user input-icon"></i>
@@ -292,7 +292,7 @@ unset($_SESSION['form_data'], $_SESSION['errors']);
         async function checkAvailability(type, value) {
             if (value.length < 3) return;
             try {
-                const response = await fetch(`/Fitmatch/public/api/user_api.php?action=check_availability&type=${type}&value=${encodeURIComponent(value)}`);
+                const response = await fetch('api/user_api.php?action=check_availability&type=' + type + '&value=' + encodeURIComponent(value));
                 const data = await response.json();
                 const validationDiv = document.getElementById(`${type}Validation`);
                 const input = document.querySelector(`input[name="${type}"]`);
@@ -403,7 +403,7 @@ unset($_SESSION['form_data'], $_SESSION['errors']);
             formData.forEach((value, key) => {
                 data[key] = value;
             });
-            fetch('/Fitmatch/public/api/user_api.php?action=register', {
+            fetch('api/user_api.php?action=register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -413,7 +413,7 @@ unset($_SESSION['form_data'], $_SESSION['errors']);
             .then(res => res.json())
             .then(response => {
                 if (response.success) {
-                    window.location.href = response.redirect || 'swipe.php';
+                    window.location.href = response.redirect || 'router.php?page=swipe';
                 } else if (response.error) {
                     alert(response.error);
                 } else if (response.errors) {
