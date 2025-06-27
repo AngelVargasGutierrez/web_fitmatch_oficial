@@ -5,11 +5,8 @@ if (!$userController->isLoggedIn()) {
     header('Location: login.php');
     exit;
 }
-require_once __DIR__ . '/../app/controllers/SwipeController.php';
-$swipeController = new SwipeController();
-$swipeController->showSwipe();
 $currentUser = $userController->getCurrentUser();
-?>
+include __DIR__ . '/../app/views/swipe.php';
 <!DOCTYPE html>
 <html lang="es">
 <head>
