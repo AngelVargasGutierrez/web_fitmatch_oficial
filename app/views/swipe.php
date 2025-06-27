@@ -185,7 +185,7 @@ function renderProfile() {
     card.className = 'profile-card';
     card.innerHTML = `
         <div class="profile-img">
-            <i class="fas fa-user"></i>
+            ${p.foto_perfil ? `<img src="${p.foto_perfil}" alt="Foto de perfil" style="width:100%;height:220px;object-fit:cover;">` : `<i class='fas fa-user'></i>`}
         </div>
         <div class="profile-info">
             <h2>${p.first_name ? p.first_name : p.username}, ${p.age ? p.age : ''}</h2>
